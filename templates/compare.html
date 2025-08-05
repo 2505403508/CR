@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ card1.name }} vs {{ card2.name }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <h1>Compare Cards</h1>
+  <div class="comparison">
+    <div class="card">
+      <h2>{{ card1.name }}</h2>
+      <img src="{{ url_for('static', filename='images/' + card1.image) }}" alt="{{ card1.name }}" width="150">
+      <ul>
+        <li>Type: {{ card1.type }}</li>
+        <li>Elixir: {{ card1.elixir_cost }}</li>
+        <li>Rarity: {{ card1.rarity }}</li>
+        <li>Arena: {{ card1.arena_unlocked }}</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>{{ card2.name }}</h2>
+      <img src="{{ url_for('static', filename='images/' + card2.image) }}" alt="{{ card2.name }}" width="150">
+      <ul>
+        <li>Type: {{ card2.type }}</li>
+        <li>Elixir: {{ card2.elixir_cost }}</li>
+        <li>Rarity: {{ card2.rarity }}</li>
+        <li>Arena: {{ card2.arena_unlocked }}</li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>

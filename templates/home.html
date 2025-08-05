@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Clash Royale Card Explorer</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Clash Royale Card Explorer</h1>
+      <p>Browse, Compare & Learn About All Cards</p>
+    </header>
+
+    <nav>
+      <a href="/cards">View All Cards</a>
+      <a href="/compare">Compare Cards</a>
+      <a href="/login">Login</a>
+      <a href="/register">Register</a>
+    </nav>
+
+    <main>
+      <section class="intro">
+        <h2>Welcome!</h2>
+        <p>This is your one-stop Clash Royale card guide. You can browse all the cards, compare stats, and explore their details.</p>
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Clash Royale Logo">
+      </section>
+    </main>
+
+    <footer>
+      <p>Made for DTP Project | Clash Royale &copy; Supercell</p>
+    </footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ card.name }} - Clash Royale</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="card-detail-container">
+        <h1>{{ card.name }}</h1>
+        <img src="{{ url_for('static', filename='images/' + card.image) }}" alt="{{ card.name }}" class="card-image">
+        
+        <ul class="card-info">
+            <li><strong>Type:</strong> {{ card.type }}</li>
+            <li><strong>Elixir Cost:</strong> {{ card.elixir_cost }}</li>
+            <li><strong>Rarity:</strong> {{ card.rarity }}</li>
+            <li><strong>Arena Unlocked:</strong> {{ card.arena_unlocked }}</li>
+        </ul>
+
+        <a href="/cards">← Back to all cards</a>
+    </div>
+</body>
+</html>
