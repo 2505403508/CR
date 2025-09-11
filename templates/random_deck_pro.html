@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Random Deck Pro</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/common.css') }}">
+    <style>
+        .deck-row {
+            display: flex;
+            flex-wrap: nowrap;
+            justify-content: center;
+            gap: 32px;
+            margin-top: 32px;
+            margin-bottom: 0;
+        }
+        .deck-card {
+            background: linear-gradient(135deg, #e0f2fe 60%, #99f6e4 100%);
+            border-radius: 16px;
+            box-shadow: 0 4px 16px rgba(59,130,246,0.10);
+            width: 180px;
+            padding: 18px 10px 14px 10px;
+            text-align: center;
+            margin-bottom: 18px;
+        }
+        .deck-card img {
+            width: 90px;
+            height: 90px;
+            object-fit: contain;
+            margin-bottom: 8px;
+            filter: drop-shadow(0 2px 8px #3b82f633);
+        }
+        .deck-card h3 {
+            margin: 8px 0 6px 0;
+            font-size: 1.1em;
+            color: #2563eb;
+        }
+        .deck-card .details {
+            font-size: 0.98em;
+            color: #111;
+        }
+        .form-row {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-bottom: 18px;
+        }
+        .form-row label {
+            font-weight: bold;
+            color: #2563eb;
+        }
+        .error-msg {
+            color: #fc575e;
+            font-weight: bold;
+            margin-bottom: 18px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Random Deck Pro</h1>
+        <p style="color:#2563eb;font-size:1.1em;margin-top:8px;">
+            Choose how many Troop, Spell, and Building cards you want (total must be 8).
+        </p>
+    </div>
+    <div style="margin: 0 0 18px 24px;">
+        <a href="{{ url_for('home') }}" class="button" style="padding:7px 22px;font-size:1em;">&#8592; Back to Home</a>
+    </div>
+    <div class="main-content" style="text-align:center;">
+        {% if error %}
+            <div class="error-msg">{{ error }}</div>
+        {% endif %}
+        <form method="post">
+            <div class="form-row">
+                <label for="troop">Troop:</label>
+                <input type="number" id="troop" name="troop" min="0" max="8" value="{{ request.form.troop or 0 }}">
+                <label for="spell">Spell:</label>
+                <input type="number" id="spell" name="spell" min="0" max="8" value="{{ request.form.spell or 0 }}">
+                <label for="building">Building:</label>
+                <input type="number" id="building" name="building" min="0" max="8" value="{{ request.form.building or 0 }}">
+            </div>
+            <button type="submit" class="button" style="margin-bottom:24px;">Generate Pro Deck</button>
+        </form>
+        {% if deck %}
+        <div class="deck-row">
+            {% for card in deck[:4] %}
+            <div class="deck-card">
+                <img src="{{ url_for('static', filename='images/' + card.image) }}" alt="{{ card.name }}">
+                <h3>{{ card.name }}</h3>
+                <div class="details">
+                    <strong>Elixir:</strong> {{ card.elixir_cost }}<br>
+                    <strong>Rarity:</strong> {{ card.rarity }}<br>
+                    <strong>Type:</strong> {{ card.type }}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="deck-row">
+            {% for card in deck[4:] %}
+            <div class="deck-card">
+                <img src="{{ url_for('static', filename='images/' + card.image) }}" alt="{{ card.name }}">
+                <h3>{{ card.name }}</h3>
+                <div class="details">
+                    <strong>Elixir:</strong> {{ card.elixir_cost }}<br>
+                    <strong>Rarity:</strong> {{ card.rarity }}<br>
+                    <strong>Type:</strong> {{ card.type }}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

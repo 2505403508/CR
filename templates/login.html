@@ -1,11 +1,33 @@
-<h2>Login</h2>
-{% if error %}
-  <p style="color: red;">{{ error }}</p>
-{% endif %}
-<form method="POST">
-  Username or Email: <input name="identifier" required><br>
-  Password: <input name="password" type="password" required><br>
-  <button type="submit">Login</button>
-</form>
-<p>Don't have an account? <a href="/register">Register here</a></p>
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - Clash Royale Card Encyclopedia</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/common.css') }}">
+</head>
+<body>
+    <div class="header">
+        <h1>Login</h1>
+    </div>
+    <div style="margin: 0 0 18px 24px;">
+        <a href="{{ url_for('home') }}" class="button" style="padding:7px 22px;font-size:1em;">&#8592; Back to Home</a>
+    </div>
+    <div class="main-content" style="max-width:400px;margin-top:40px;">
+        {% if error %}
+            <div style="color:#fc575e;font-weight:bold;margin-bottom:18px;text-align:center;">{{ error }}</div>
+        {% endif %}
+        <form method="post" autocomplete="off">
+            <label for="identifier">Username or Email</label>
+            <input type="text" name="identifier" id="identifier" required>
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" required>
+            <button type="submit" class="button" style="width:100%;">Login</button>
+        </form>
+        <p style="text-align:center;margin-top:18px;">
+            Don't have an account?
+            <a href="{{ url_for('register') }}">Register</a>
+        </p>
+    </div>
+</body>
+</html>
 

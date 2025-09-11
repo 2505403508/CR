@@ -1,23 +1,32 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{{ card.name }} - Clash Royale</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>{{ card.name }} - Card Details</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/common.css') }}">
 </head>
 <body>
-    <div class="card-detail-container">
-        <h1>{{ card.name }}</h1>
-        <img src="{{ url_for('static', filename='images/' + card.image) }}" alt="{{ card.name }}" class="card-image">
-        
-        <ul class="card-info">
-            <li><strong>Type:</strong> {{ card.type }}</li>
-            <li><strong>Elixir Cost:</strong> {{ card.elixir_cost }}</li>
-            <li><strong>Rarity:</strong> {{ card.rarity }}</li>
-            <li><strong>Arena Unlocked:</strong> {{ card.arena_unlocked }}</li>
-        </ul>
-
-        <a href="/cards">← Back to all cards</a>
+    <div class="header">
+        <h1 style="color:#3b82f6;letter-spacing:2px;">{{ card.name }}</h1>
+    </div>
+    <div class="main-content" style="max-width:420px;margin:40px auto 0 auto;padding:36px 0 32px 0;background:#fff;border-radius:28px;box-shadow:0 4px 24px #3b82f622;">
+        <div style="display:flex;justify-content:center;">
+            <img src="{{ url_for('static', filename='images/' + card.image) }}" alt="{{ card.name }}" style="width:140px;height:140px;object-fit:contain;box-shadow:0 0 0 4px #a5d8ff,0 2px 16px #3b82f644;border-radius:18px;margin-bottom:18px;">
+        </div>
+        <div style="margin: 32px 0 0 0; text-align: center;">
+            <div style="color:#2563eb;font-weight:bold;">Type</div>
+            <div style="color:#222; margin-bottom: 18px;">{{ card.type }}</div>
+            <div style="color:#2563eb;font-weight:bold;">Rarity</div>
+            <div style="color:#222; margin-bottom: 18px;">{{ card.rarity }}</div>
+            <div style="color:#2563eb;font-weight:bold;">Elixir</div>
+            <div style="color:#222; margin-bottom: 18px;">{{ card.elixir_cost }}</div>
+            <div style="color:#2563eb;font-weight:bold;">Unlock Arena</div>
+            <div style="color:#222;">{{ card.arena_unlocked }}</div>
+        </div>
+        <a href="{{ url_for('all_cards') }}" class="button" style="margin-top:36px;">&#8592; Back to All Cards</a>
+        <form method="post" action="{{ url_for('favourite_card', card_id=card.id) }}" style="margin-top:18px;">
+            <button type="submit" class="button" style="padding:6px 18px;font-size:1em;width:110px;">Favourite</button>
+        </form>
     </div>
 </body>
 </html>

@@ -1,0 +1,87 @@
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(135deg, #a5d8ff 0%, #e0f2fe 100%);
+    margin: 0;
+    min-height: 100vh;
+}
+.header {
+    background: rgba(255,255,255,0.97);
+    padding: 32px 0 16px 0;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(59,130,246,0.07);
+    margin-bottom: 32px;
+}
+.header h1 {
+    margin: 0;
+    font-size: 2.7em;
+    color: #3b82f6;
+    letter-spacing: 2px;
+    text-shadow: 1px 2px 8px #e0f2fe;
+}
+.main-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: rgba(255,255,255,0.98);
+    border-radius: 18px;
+    padding: 48px 32px;
+    box-shadow: 0 4px 24px rgba(59,130,246,0.10);
+}
+.button-row, .main-content > div {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 32px;
+    margin-top: 32px;
+    margin-bottom: 32px;
+}
+.button {
+    background: linear-gradient(90deg, #3b82f6 0%, #38bdf8 100%);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 14px 38px;
+    font-size: 1.2em;
+    cursor: pointer;
+    margin: 0;
+    transition: transform 0.15s, box-shadow 0.15s, background 0.2s;
+    box-shadow: 0 2px 8px rgba(59,130,246,0.12);
+    font-weight: bold;
+    letter-spacing: 1px;
+    min-width: 180px;
+    white-space: nowrap;
+}
+.button:hover {
+    background: linear-gradient(90deg, #2563eb 0%, #38bdf8 100%);
+    transform: scale(1.09);
+    box-shadow: 0 8px 32px rgba(59,130,246,0.18);
+}
+input, select {
+    border: 1px solid #3b82f6;
+    border-radius: 6px;
+    padding: 8px;
+    margin: 6px 0 16px 0;
+    width: 100%;
+    font-size: 1em;
+    background: #f0f9ff;
+}
+label {
+    font-weight: bold;
+    color: #2563eb;
+}
+a {
+    color: #2563eb;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+img {
+    max-width: 100%;
+    height: auto;
+}
+@media (max-width: 700px) {
+    .main-content { padding: 18px 4vw; }
+    .header h1 { font-size: 2em; }
+    .button-row, .main-content > div { gap: 12px; }
+}

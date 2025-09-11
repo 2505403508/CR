@@ -1,0 +1,61 @@
+body { font-family: Arial, sans-serif; background: #e2e2e2; }
+.card-list { 
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 32px; 
+    padding: 24px; 
+    justify-content: center;
+}
+.card-link { 
+    text-decoration: none; 
+    color: inherit; 
+    flex: 1 1 220px;
+    max-width: 260px;
+    min-width: 220px;
+}
+.card { 
+    background: linear-gradient(135deg, #fffbe6 60%, #ffe0e6 100%);
+    border-radius: 16px; 
+    box-shadow: 0 4px 16px rgba(252,87,94,0.10); 
+    width: 100%; 
+    padding: 20px 12px 18px 12px; 
+    text-align: center; 
+    transition: box-shadow 0.2s, transform 0.2s;
+    position: relative;
+    overflow: hidden;
+}
+.card:hover { 
+    box-shadow: 0 12px 32px rgba(252,87,94,0.18); 
+    transform: scale(1.08) rotate(-2deg);
+    z-index: 2;
+}
+.card img { 
+    width: 110px; 
+    height: 110px; 
+    object-fit: contain; 
+    margin-bottom: 10px;
+    filter: drop-shadow(0 2px 8px #fc575e33);
+    transition: transform 0.2s;
+}
+.card:hover img {
+    transform: scale(1.12) rotate(2deg);
+}
+.card h2 { 
+    margin: 10px 0 8px 0; 
+    font-size: 1.2em; 
+    color: #fc575e;
+    letter-spacing: 1px;
+}
+.details { 
+    font-size: 1em; 
+    margin-bottom: 8px; 
+    color: #444;
+}
+.elixir { color: #f7b42c; }
+.rarity { color: #fc575e; }
+.type { color: #3b82f6; }
+@media (max-width: 900px) {
+    .card-list { gap: 18px; }
+    .card-link { min-width: 160px; max-width: 180px; }
+    .card img { width: 80px; height: 80px; }
+}

@@ -1,35 +1,62 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Clash Royale Card Explorer</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+    <meta charset="UTF-8">
+    <title>Clash Royale Card Encyclopedia</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/common.css') }}">
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>Clash Royale Card Explorer</h1>
-      <p>Browse, Compare & Learn About All Cards</p>
-    </header>
-
-    <nav>
-      <a href="/cards">View All Cards</a>
-      <a href="/compare">Compare Cards</a>
-      <a href="/login">Login</a>
-      <a href="/register">Register</a>
-    </nav>
-
-    <main>
-      <section class="intro">
-        <h2>Welcome!</h2>
-        <p>This is your one-stop Clash Royale card guide. You can browse all the cards, compare stats, and explore their details.</p>
-        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Clash Royale Logo">
-      </section>
-    </main>
-
-    <footer>
-      <p>Made for DTP Project | Clash Royale &copy; Supercell</p>
-    </footer>
-  </div>
+    <div class="header" style="display:flex;justify-content:space-between;align-items:flex-start;position:relative;">
+        <div>
+            <h1 style="margin:0;color:#3b82f6;letter-spacing:2px;text-align:center;">Clash Royale Card Encyclopedia</h1>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;position:absolute;top:48px;right:36px;">
+            <a href="{{ url_for('login') }}" class="button" style="padding:4px 6px;font-size:0.95em;width:48px;text-align:center;">Login</a>
+            <a href="{{ url_for('register') }}" class="button" style="padding:4px 6px;font-size:0.95em;width:48px;text-align:center;">Reg</a>
+        </div>
+    </div>
+    <div class="main-content" style="text-align:center;">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Clash Royale Logo" style="width:600px;max-width:95vw;margin-bottom:28px;box-shadow:0 4px 24px #3b82f644;border-radius:50%;">
+        <p style="font-size:1.35em;color:#3b82f6;font-weight:bold;margin-bottom:32px;text-align:center;">
+            Welcome to the ultimate Clash Royale card encyclopedia!<br>
+            Browse, compare, and discover every card in the game.
+        </p>
+        <div class="button-row">
+            <a href="{{ url_for('all_cards') }}" class="button">Browse All Cards</a>
+            <a href="{{ url_for('compare_cards') }}" class="button">Compare Cards</a>
+            <a href="{{ url_for('random_deck') }}" class="button">Generate Random Deck</a>
+            <a href="{{ url_for('random_deck_pro') }}" class="button">Random Deck Pro</a>
+            <a href="{{ url_for('favourite_page') }}" class="button">Favourite</a>
+        </div>
+    </div>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div id="flash-popup" style="
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          background: #e0f2fe;
+          color: #2563eb;
+          padding: 22px 38px;
+          border-radius: 16px;
+          font-weight: bold;
+          font-size: 1.25em;
+          box-shadow: 0 8px 32px #3b82f644;
+          z-index: 9999;
+          text-align: center;
+          ">
+          {% for category, message in messages %}
+            {{ message }}
+          {% endfor %}
+        </div>
+        <script>
+          setTimeout(function() {
+            var popup = document.getElementById('flash-popup');
+            if (popup) popup.style.display = 'none';
+          }, 2000);
+        </script>
+      {% endif %}
+    {% endwith %}
 </body>
 </html>

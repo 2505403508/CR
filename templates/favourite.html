@@ -1,0 +1,72 @@
+<!-- favourite.html -->
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Favourite Cards</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/common.css') }}">
+    <style>
+        .card-list { 
+            display: flex; 
+            flex-wrap: wrap; 
+            gap: 28px; 
+            padding: 24px; 
+            justify-content: center;
+        }
+        .card-link { 
+            text-decoration: none; 
+            color: inherit; 
+            width: 140px;
+            display: block;
+        }
+        .card { 
+            background: linear-gradient(135deg, #e0f2fe 60%, #99f6e4 100%);
+            border-radius: 14px; 
+            box-shadow: 0 3px 12px rgba(59,130,246,0.10); 
+            width: 100%; 
+            padding: 16px 6px 14px 6px; 
+            text-align: center; 
+            transition: box-shadow 0.2s, transform 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+        .card img { 
+            width: 90px; 
+            height: 90px; 
+            object-fit: contain; 
+            margin-bottom: 10px;
+            filter: drop-shadow(0 2px 8px #3b82f633);
+        }
+        .card-name { 
+            margin: 0;
+            font-size: 1.08em; 
+            color: #2563eb;
+            font-weight: bold;
+            word-break: break-all;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1 style="color:#3b82f6;">My Favourite Cards</h1>
+    </div>
+    <div style="margin: 0 0 18px 24px;">
+        <a href="{{ url_for('home') }}" class="button" style="padding:7px 22px;font-size:1em;">&#8592; Back to Home</a>
+    </div>
+    <div class="main-content">
+        <div class="card-list">
+            {% for card in cards %}
+            <a class="card-link" href="{{ url_for('get_card_details', card_id=card.id) }}">
+                <div class="card">
+                    <img src="{{ url_for('static', filename='images/' + card.image) }}" alt="{{ card.name }}">
+                    <div class="card-name">{{ card.name }}</div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+        {% if not cards %}
+            <p style="text-align:center;color:#888;font-size:1.1em;">No favourite cards yet.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

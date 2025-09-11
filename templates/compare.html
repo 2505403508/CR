@@ -1,34 +1,142 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>{{ card1.name }} vs {{ card2.name }}</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <meta charset="UTF-8">
+    <title>Compare Cards</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/common.css') }}">
+    <style>
+        .compare-form {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .compare-cards {
+            display: flex;
+            justify-content: center;
+            gap: 48px;
+            margin-top: 32px;
+        }
+        .card-box {
+            background: linear-gradient(135deg, #fffbe6 60%, #ffe0e6 100%);
+            border-radius: 18px;
+            box-shadow: 0 4px 24px rgba(252,87,94,0.13);
+            padding: 36px 24px 28px 24px;
+            width: 340px;
+            text-align: center;
+            transition: box-shadow 0.2s, transform 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+        .card-box:hover {
+            box-shadow: 0 8px 32px rgba(252,87,94,0.18);
+            transform: scale(1.04) rotate(-1.5deg);
+            z-index: 2;
+        }
+        .card-box img {
+            width: 110px;
+            height: 110px;
+            object-fit: contain;
+            margin-bottom: 12px;
+            filter: drop-shadow(0 2px 8px #fc575e33);
+            transition: transform 0.2s;
+        }
+        .card-box:hover img {
+            transform: scale(1.10) rotate(2deg);
+        }
+        .card-box h2 {
+            color: #fc575e;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+        .details { font-size: 1.08em; margin-bottom: 8px; color: #444; }
+        .elixir { color: #f7b42c; }
+        .rarity { color: #fc575e; }
+        .type { color: #3b82f6; }
+        .arena { color: #8b5cf6; }
+        .vs-circle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2em;
+            font-weight: bold;
+            color: #fff;
+            background: linear-gradient(135deg, #fc575e 60%, #f7b42c 100%);
+            border-radius: 50%;
+            width: 70px;
+            height: 70px;
+            margin: 0 18px;
+            box-shadow: 0 2px 12px #fc575e44;
+            letter-spacing: 2px;
+            position: relative;
+            top: 80px;
+        }
+        @media (max-width: 900px) {
+            .compare-cards { flex-direction: column; gap: 24px; }
+            .vs-circle { margin: 18px auto; top: 0; }
+            .card-box { width: 95vw; }
+        }
+    </style>
 </head>
 <body>
-  <h1>Compare Cards</h1>
-  <div class="comparison">
-    <div class="card">
-      <h2>{{ card1.name }}</h2>
-      <img src="{{ url_for('static', filename='images/' + card1.image) }}" alt="{{ card1.name }}" width="150">
-      <ul>
-        <li>Type: {{ card1.type }}</li>
-        <li>Elixir: {{ card1.elixir_cost }}</li>
-        <li>Rarity: {{ card1.rarity }}</li>
-        <li>Arena: {{ card1.arena_unlocked }}</li>
-      </ul>
+    <div class="header">
+        <h1>Compare Cards</h1>
+        <p style="color:#fc575e;font-size:1.1em;margin-top:8px;">
+            Select two cards to compare their stats side by side.
+        </p>
     </div>
+    <div style="margin: 0 0 18px 24px;">
+        <a href="{{ url_for('home') }}" class="button" style="padding:7px 22px;font-size:1em;">&#8592; Back to Home</a>
+    </div>
+    <div class="main-content">
+        <form class="compare-form" method="get" action="{{ url_for('compare_cards') }}">
+            <label for="card1">Card 1:</label>
+            <select name="card1" id="card1" required>
+                <option value="">Select a card</option>
+                {% for card in all_cards %}
+                <option value="{{ card.id }}" {% if card1 and card1.id == card.id %}selected{% endif %}>{{ card.name }}</option>
+                {% endfor %}
+            </select>
+            <span style="margin:0 12px;">vs</span>
+            <label for="card2">Card 2:</label>
+            <select name="card2" id="card2" required>
+                <option value="">Select a card</option>
+                {% for card in all_cards %}
+                <option value="{{ card.id }}" {% if card2 and card2.id == card.id %}selected{% endif %}>{{ card.name }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="button" style="margin-left:18px;">Compare</button>
+        </form>
 
-    <div class="card">
-      <h2>{{ card2.name }}</h2>
-      <img src="{{ url_for('static', filename='images/' + card2.image) }}" alt="{{ card2.name }}" width="150">
-      <ul>
-        <li>Type: {{ card2.type }}</li>
-        <li>Elixir: {{ card2.elixir_cost }}</li>
-        <li>Rarity: {{ card2.rarity }}</li>
-        <li>Arena: {{ card2.arena_unlocked }}</li>
-      </ul>
+        {% if card1 and card2 and card1.id == card2.id %}
+            <div style="text-align:center; color:#fc575e; font-weight:bold; font-size:1.2em; margin-bottom:18px;">
+                The two selected cards are the same!
+            </div>
+        {% endif %}
+
+        {% if card1 and card2 %}
+        <div class="compare-cards">
+            <div class="card-box">
+                <img src="{{ url_for('static', filename='images/' + card1.image) }}" alt="{{ card1.name }}">
+                <h2>{{ card1.name }}</h2>
+                <div class="details">
+                    <span class="elixir"><strong>Elixir:</strong> {{ card1.elixir_cost }}</span><br>
+                    <span class="rarity"><strong>Rarity:</strong> {{ card1.rarity }}</span><br>
+                    <span class="type"><strong>Type:</strong> {{ card1.type }}</span><br>
+                    <span class="arena"><strong>Arena:</strong> {{ card1.arena_unlocked }}</span>
+                </div>
+            </div>
+            <div class="vs-circle">VS</div>
+            <div class="card-box">
+                <img src="{{ url_for('static', filename='images/' + card2.image) }}" alt="{{ card2.name }}">
+                <h2>{{ card2.name }}</h2>
+                <div class="details">
+                    <span class="elixir"><strong>Elixir:</strong> {{ card2.elixir_cost }}</span><br>
+                    <span class="rarity"><strong>Rarity:</strong> {{ card2.rarity }}</span><br>
+                    <span class="type"><strong>Type:</strong> {{ card2.type }}</span><br>
+                    <span class="arena"><strong>Arena:</strong> {{ card2.arena_unlocked }}</span>
+                </div>
+            </div>
+        </div>
+        {% endif %}
     </div>
-  </div>
 </body>
 </html>

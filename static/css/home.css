@@ -73,3 +73,30 @@ footer {
   font-size: 0.9rem;
   color: #aaa;
 }
+
+img {
+  width: 60%;
+  max-width: 480px;
+  display: block;
+  margin: 32px auto 0 auto;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px #fc575e22;
+}
+
+.main-content {
+  text-align: center;
+}
+
+.button-row {
+  /* your button styles here */
+}
+
+.main-banner {
+  width: 100%;
+  max-width: 1200px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px #fc575e22;
+}

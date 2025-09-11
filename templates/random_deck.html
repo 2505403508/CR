@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Random Deck Generator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/common.css') }}">
+    <style>
+        .deck-row {
+            display: flex;
+            flex-wrap: nowrap;
+            justify-content: center;
+            gap: 32px;
+            margin-top: 32px;
+            margin-bottom: 0;
+        }
+        .deck-card {
+            background: linear-gradient(135deg, #e0f2fe 60%, #a5d8ff 100%);
+            border-radius: 16px;
+            box-shadow: 0 4px 16px rgba(59,130,246,0.10);
+            width: 180px;
+            padding: 18px 10px 14px 10px;
+            text-align: center;
+            margin-bottom: 18px;
+        }
+        .deck-card img {
+            width: 90px;
+            height: 90px;
+            object-fit: contain;
+            margin-bottom: 8px;
+            filter: drop-shadow(0 2px 8px #3b82f633);
+        }
+        .deck-card h3 {
+            margin: 8px 0 6px 0;
+            font-size: 1.1em;
+            color: #2563eb;
+        }
+        .deck-card .details {
+            font-size: 0.98em;
+            color: #444;
+        }
+        @media (max-width: 900px) {
+            .deck-row { flex-wrap: wrap; gap: 16px; }
+            .deck-card { width: 45vw; min-width: 120px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Random Deck Generator</h1>
+    </div>
+    <div style="margin: 0 0 18px 24px;">
+        <a href="{{ url_for('home') }}" class="button" style="padding:7px 22px;font-size:1em;">&#8592; Back to Home</a>
+    </div>
+    <div class="main-content" style="text-align:center;">
+        <form method="post">
+            <button type="submit" class="button" style="margin-bottom:24px;">Generate Random Deck</button>
+        </form>
+        {% if deck %}
+        <div class="deck-row">
+            {% for card in deck[:4] %}
+            <div class="deck-card">
+                <img src="{{ url_for('static', filename='images/' + card.image) }}" alt="{{ card.name }}">
+                <h3>{{ card.name }}</h3>
+                <div class="details">
+                    <strong>Elixir:</strong> {{ card.elixir_cost }}<br>
+                    <strong>Rarity:</strong> {{ card.rarity }}<br>
+                    <strong>Type:</strong> {{ card.type }}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="deck-row">
+            {% for card in deck[4:] %}
+            <div class="deck-card">
+                <img src="{{ url_for('static', filename='images/' + card.image) }}" alt="{{ card.name }}">
+                <h3>{{ card.name }}</h3>
+                <div class="details">
+                    <strong>Elixir:</strong> {{ card.elixir_cost }}<br>
+                    <strong>Rarity:</strong> {{ card.rarity }}<br>
+                    <strong>Type:</strong> {{ card.type }}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
