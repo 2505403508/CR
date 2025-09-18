@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Random Deck Pro</title>
+    <!-- Load the common stylesheet -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/common.css') }}">
     <style>
+        /* Row layout for showing 4 cards side by side */
         .deck-row {
             display: flex;
             flex-wrap: nowrap;
@@ -13,6 +15,8 @@
             margin-top: 32px;
             margin-bottom: 0;
         }
+
+        /* Styling for each card box */
         .deck-card {
             background: linear-gradient(135deg, #e0f2fe 60%, #99f6e4 100%);
             border-radius: 16px;
@@ -22,6 +26,8 @@
             text-align: center;
             margin-bottom: 18px;
         }
+
+        /* Card image style */
         .deck-card img {
             width: 90px;
             height: 90px;
@@ -29,25 +35,35 @@
             margin-bottom: 8px;
             filter: drop-shadow(0 2px 8px #3b82f633);
         }
+
+        /* Card title (name) */
         .deck-card h3 {
             margin: 8px 0 6px 0;
             font-size: 1.1em;
             color: #2563eb;
         }
+
+        /* Card details section (stats) */
         .deck-card .details {
             font-size: 0.98em;
             color: #111;
         }
+
+        /* Layout for the input row (Troop, Spell, Building) */
         .form-row {
             display: flex;
             justify-content: center;
             gap: 24px;
             margin-bottom: 18px;
         }
+
+        /* Labels styling */
         .form-row label {
             font-weight: bold;
             color: #2563eb;
         }
+
+        /* Error message for invalid input */
         .error-msg {
             color: #fc575e;
             font-weight: bold;
@@ -55,32 +71,75 @@
             text-align: center;
         }
     </style>
+
+    <script>
+    // Basic JS validation: make sure inputs are integers only
+    function validateForm() {
+        let troop = document.getElementById('troop').value;
+        let spell = document.getElementById('spell').value;
+        let building = document.getElementById('building').value;
+        let errorMsg = document.getElementById('int-error');
+        errorMsg.style.display = 'none';
+        let valid = true;
+
+        // Check each value - must be an integer (digits only)
+        [troop, spell, building].forEach(function(val) {
+            if (val === '') return;
+            if (!/^\d+$/.test(val)) {
+                valid = false;
+            }
+        });
+
+        if (!valid) {
+            errorMsg.style.display = 'block'; // Show error if invalid
+            return false;
+        }
+        return true;
+    }
+    </script>
 </head>
 <body>
     <div class="header">
         <h1>Random Deck Pro</h1>
+        <!-- Subheading under the page title -->
         <p style="color:#2563eb;font-size:1.1em;margin-top:8px;">
             Choose how many Troop, Spell, and Building cards you want (total must be 8).
         </p>
     </div>
+
+    <!-- Back to Home button -->
     <div style="margin: 0 0 18px 24px;">
         <a href="{{ url_for('home') }}" class="button" style="padding:7px 22px;font-size:1em;">&#8592; Back to Home</a>
     </div>
+
     <div class="main-content" style="text-align:center;">
+        <!-- Custom integer validation message -->
+        <div id="int-error" style="display:none;color:#fc575e;font-weight:bold;margin-bottom:12px;">
+            Please enter an integer value only for Troop, Spell, and Building.
+            <br>只能输入整数，请不要输入小数点。
+        </div>
+
+        <!-- Error passed from backend -->
         {% if error %}
-            <div class="error-msg">{{ error }}</div>
+          <div style="color:red;text-align:center;margin-bottom:12px;">{{ error }}</div>
         {% endif %}
-        <form method="post">
+
+        <!-- Input form for troop, spell, building counts -->
+        <form method="post" onsubmit="return validateForm();">
             <div class="form-row">
                 <label for="troop">Troop:</label>
-                <input type="number" id="troop" name="troop" min="0" max="8" value="{{ request.form.troop or 0 }}">
+                <input type="number" id="troop" name="troop" min="0" max="8" step="1" value="{{ request.form.troop or 0 }}">
+
                 <label for="spell">Spell:</label>
-                <input type="number" id="spell" name="spell" min="0" max="8" value="{{ request.form.spell or 0 }}">
+                <input type="number" id="spell" name="spell" min="0" max="8" step="1" value="{{ request.form.spell or 0 }}">
+
                 <label for="building">Building:</label>
-                <input type="number" id="building" name="building" min="0" max="8" value="{{ request.form.building or 0 }}">
+                <input type="number" id="building" name="building" min="0" max="8" step="1" value="{{ request.form.building or 0 }}">
             </div>
             <button type="submit" class="button" style="margin-bottom:24px;">Generate Pro Deck</button>
         </form>
+
+        <!-- Show generated deck if available -->
         {% if deck %}
         <div class="deck-row">
             {% for card in deck[:4] %}
@@ -95,6 +154,7 @@
             </div>
             {% endfor %}
         </div>
+
         <div class="deck-row">
             {% for card in deck[4:] %}
             <div class="deck-card">

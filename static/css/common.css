@@ -1,16 +1,20 @@
 body {
-    font-family: 'Segoe UI', Arial, sans-serif;
-    background: linear-gradient(135deg, #a5d8ff 0%, #e0f2fe 100%);
+    font-family: 'Segoe UI', Arial, sans-serif; /* Use modern font for readability / 使用现代字体便于阅读 */
+    background: linear-gradient(135deg, #a5d8ff 0%, #e0f2fe 100%); /* Soft gradient background / 柔和渐变背景 */
     margin: 0;
     min-height: 100vh;
 }
+
+/* Header section / 页眉区域 */
 .header {
-    background: rgba(255,255,255,0.97);
+    background: rgba(255,255,255,0.97); /* Slightly transparent for layering / 半透明效果用于分层 */
     padding: 32px 0 16px 0;
     text-align: center;
-    box-shadow: 0 2px 8px rgba(59,130,246,0.07);
+    box-shadow: 0 2px 8px rgba(59,130,246,0.07); /* Subtle shadow for depth / 阴影增加层次感 */
     margin-bottom: 32px;
 }
+
+/* Main title in header / 页眉主标题 */
 .header h1 {
     margin: 0;
     font-size: 2.7em;
@@ -18,6 +22,8 @@ body {
     letter-spacing: 2px;
     text-shadow: 1px 2px 8px #e0f2fe;
 }
+
+/* Main content area / 主内容区 */
 .main-content {
     max-width: 1200px;
     margin: 0 auto;
@@ -26,6 +32,8 @@ body {
     padding: 48px 32px;
     box-shadow: 0 4px 24px rgba(59,130,246,0.10);
 }
+
+/* Button row layout / 按钮行布局 */
 .button-row, .main-content > div {
     display: flex;
     flex-wrap: wrap;
@@ -35,6 +43,8 @@ body {
     margin-top: 32px;
     margin-bottom: 32px;
 }
+
+/* Main button style / 主按钮样式 */
 .button {
     background: linear-gradient(90deg, #3b82f6 0%, #38bdf8 100%);
     color: #fff;
@@ -51,11 +61,15 @@ body {
     min-width: 180px;
     white-space: nowrap;
 }
+
+/* Button hover effect / 按钮悬停效果 */
 .button:hover {
     background: linear-gradient(90deg, #2563eb 0%, #38bdf8 100%);
     transform: scale(1.09);
     box-shadow: 0 8px 32px rgba(59,130,246,0.18);
 }
+
+/* Input and select style / 输入框和下拉框样式 */
 input, select {
     border: 1px solid #3b82f6;
     border-radius: 6px;
@@ -65,10 +79,14 @@ input, select {
     font-size: 1em;
     background: #f0f9ff;
 }
+
+/* Label style / 标签样式 */
 label {
     font-weight: bold;
     color: #2563eb;
 }
+
+/* Link style / 链接样式 */
 a {
     color: #2563eb;
     text-decoration: none;
@@ -76,10 +94,14 @@ a {
 a:hover {
     text-decoration: underline;
 }
+
+/* Image responsive style / 图片自适应样式 */
 img {
     max-width: 100%;
     height: auto;
 }
+
+/* Responsive design for mobile / 移动端响应式设计 */
 @media (max-width: 700px) {
     .main-content { padding: 18px 4vw; }
     .header h1 { font-size: 2em; }

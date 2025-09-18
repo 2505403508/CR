@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Random Deck Generator</title>
+    <!-- Load the common stylesheet -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/common.css') }}">
     <style>
+        /* Row layout for showing 4 cards side by side */
         .deck-row {
             display: flex;
             flex-wrap: nowrap;
@@ -13,6 +15,8 @@
             margin-top: 32px;
             margin-bottom: 0;
         }
+
+        /* Styling for each card box */
         .deck-card {
             background: linear-gradient(135deg, #e0f2fe 60%, #a5d8ff 100%);
             border-radius: 16px;
@@ -22,6 +26,8 @@
             text-align: center;
             margin-bottom: 18px;
         }
+
+        /* Card image style */
         .deck-card img {
             width: 90px;
             height: 90px;
@@ -29,15 +35,21 @@
             margin-bottom: 8px;
             filter: drop-shadow(0 2px 8px #3b82f633);
         }
+
+        /* Card title (name) */
         .deck-card h3 {
             margin: 8px 0 6px 0;
             font-size: 1.1em;
             color: #2563eb;
         }
+
+        /* Card details section (stats) */
         .deck-card .details {
             font-size: 0.98em;
             color: #444;
         }
+
+        /* Responsive layout for small screens */
         @media (max-width: 900px) {
             .deck-row { flex-wrap: wrap; gap: 16px; }
             .deck-card { width: 45vw; min-width: 120px; }
@@ -48,16 +60,23 @@
     <div class="header">
         <h1>Random Deck Generator</h1>
     </div>
+
+    <!-- Back to Home button -->
     <div style="margin: 0 0 18px 24px;">
         <a href="{{ url_for('home') }}" class="button" style="padding:7px 22px;font-size:1em;">&#8592; Back to Home</a>
     </div>
+
     <div class="main-content" style="text-align:center;">
+        <!-- Form with a single button to generate deck -->
         <form method="post">
             <button type="submit" class="button" style="margin-bottom:24px;">Generate Random Deck</button>
         </form>
+
+        <!-- Display generated deck if available -->
         {% if deck %}
         <div class="deck-row">
             {% for card in deck[:4] %}
+            <!-- Card box for each card -->
             <div class="deck-card">
                 <img src="{{ url_for('static', filename='images/' + card.image) }}" alt="{{ card.name }}">
                 <h3>{{ card.name }}</h3>
@@ -69,8 +88,10 @@
             </div>
             {% endfor %}
         </div>
+
         <div class="deck-row">
             {% for card in deck[4:] %}
+            <!-- Second row of cards -->
             <div class="deck-card">
                 <img src="{{ url_for('static', filename='images/' + card.image) }}" alt="{{ card.name }}">
                 <h3>{{ card.name }}</h3>

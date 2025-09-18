@@ -3,93 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <title>All Clash Royale Cards</title>
+    <!-- Link to common styles / 引入通用样式 -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/common.css') }}">
     <style>
-        .card-list { 
-            display: grid; 
+        /* Card grid layout / 卡片网格布局 */
+        .card-list {
+            display: grid;
             grid-template-columns: repeat(5, 1fr);
-            gap: 32px; 
-            padding: 32px; 
+            gap: 28px;
+            padding: 28px;
             justify-items: center;
         }
+        /* Card link style / 卡片链接样式 */
         .card-link { 
             text-decoration: none; 
             color: inherit; 
-            width: 170px; /* 调宽一点 */
+            width: 160px;
             display: block;
         }
+        /* Card style / 卡片样式 */
         .card { 
             background: linear-gradient(135deg, #e0f2fe 60%, #99f6e4 100%);
             border-radius: 16px; 
             box-shadow: 0 4px 16px rgba(59,130,246,0.10); 
-            width: 100%; 
+            width: 160px; 
             padding: 18px 8px 16px 8px; 
             text-align: center; 
             transition: box-shadow 0.2s, transform 0.2s;
             position: relative;
             overflow: hidden;
         }
+        /* Card hover effect / 卡片悬停效果 */
         .card:hover { 
             box-shadow: 0 12px 32px rgba(59,130,246,0.18); 
             transform: scale(1.08) rotate(-1deg);
             z-index: 2;
         }
+        /* Card image style / 卡片图片样式 */
         .card img { 
             width: 110px; 
             height: 110px; 
             object-fit: contain; 
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             filter: drop-shadow(0 2px 8px #3b82f633);
             transition: transform 0.2s;
         }
+        /* Card image hover / 图片悬停效果 */
         .card:hover img {
             transform: scale(1.12) rotate(2deg);
         }
+        /* Card name style / 卡牌名字样式 */
         .card-name { 
             margin: 0;
-            font-size: 1.15em; 
+            font-size: 1.08em; 
             color: #2563eb;
             letter-spacing: 1px;
             font-weight: bold;
-            word-break: keep-all;      /* 不自动断词 */
-            white-space: nowrap;       /* 不换行 */
+            white-space: nowrap;
             overflow: hidden;
-            text-overflow: ellipsis;   /* 超出显示省略号 */
-            width: 100%;
-            display: block;
+            text-overflow: ellipsis;
         }
+        /* Responsive design / 响应式设计 */
         @media (max-width: 1200px) {
             .card-list { grid-template-columns: repeat(3, 1fr); gap: 18px; }
+            .card-link, .card { width: 120px; }
+            .card img { width: 80px; height: 80px; }
         }
         @media (max-width: 700px) {
             .card-list { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-            .card-link { width: 100px; }
-            .card img { width: 60px; height: 60px; }
+            .card-link, .card { width: 80px; }
+            .card img { width: 48px; height: 48px; }
         }
     </style>
 </head>
 <body>
+    <!-- Flash message area / 弹窗提示区 -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flash-messages" style="margin:18px auto;text-align:center;">
+          {% for category, message in messages %}
+            <div class="flash flash-{{ category }}" style="color:#fc575e;font-weight:bold;background:#fffbe6;border-radius:8px;padding:10px 24px;display:inline-block;margin-bottom:8px;">
+              {{ message }}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <!-- Header section / 页眉区域 -->
     <div class="header" style="position:relative;">
         <h1>All Cards</h1>
         <p style="color:#3b82f6;font-size:1.1em;margin-top:8px;">
             Click any card to view details.
         </p>
     </div>
+    <!-- Back to home button / 返回主页按钮 -->
     <div style="margin: 0 0 18px 24px;">
         <a href="{{ url_for('home') }}" class="button" style="padding:7px 22px;font-size:1em;">&#8592; Back to Home</a>
     </div>
     <div class="main-content">
+        <!-- Search bar and autocomplete / 搜索栏和自动补全 -->
+        <form class="search-bar-container" method="get" action="{{ url_for('all_cards') }}" style="position:absolute;top:32px;right:48px;">
+            <input type="text" name="q" id="search-input" class="search-bar" placeholder="Search card name..." autocomplete="off">
+            <button type="submit" class="search-btn">Search</button>
+            <div id="autocomplete-list" style="background:#fff;border:1px solid #3b82f6;border-radius:8px;position:absolute;top:38px;left:0;width:220px;z-index:999;"></div>
+        </form>
+        <script>
+        // Autocomplete for card search / 卡牌搜索自动补全
+        document.getElementById('search-input').addEventListener('input', function() {
+            let val = this.value;
+            if (val.length < 1) {
+                document.getElementById('autocomplete-list').innerHTML = '';
+                return;
+            }
+            fetch('/autocomplete?q=' + encodeURIComponent(val))
+                .then(res => res.json())
+                .then(data => {
+                    let list = data.results.map(card =>
+                        `<div style="padding:8px;cursor:pointer;" onclick="window.location='/card/${card.id}'">${card.name}</div>`
+                    ).join('');
+                    document.getElementById('autocomplete-list').innerHTML = list;
+                });
+        });
+        </script>
+        <!-- Card grid / 卡片网格 -->
         <div class="card-list">
             {% for card in cards %}
-            <a class="card-link" href="{{ url_for('get_card_details', card_id=card.id) }}">
-                <div class="card">
+            <div class="card">
+                <a class="card-link" href="{{ url_for('get_card_details', card_id=card.id) }}">
                     <img src="{{ url_for('static', filename='images/' + card.image) }}" alt="{{ card.name }}">
                     <div class="card-name">{{ card.name }}</div>
-                </div>
-            </a>
-            <form method="post" action="{{ url_for('favourite_card', card_id=card.id) }}" style="margin-top:8px;">
-                <button type="submit" class="button" style="padding:3px 10px;font-size:0.95em;width:70px;">Favourite</button>
-            </form>
+                </a>
+                <!-- Favourite button removed / 收藏按钮已移除 -->
+            </div>
             {% endfor %}
         </div>
     </div>

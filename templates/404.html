@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Page Not Found</title>
+    <style>
+        /* Page background and font / 页面背景和字体 */
+        body { background: #e0f2fe; color: #2563eb; text-align: center; font-family: Arial, sans-serif; }
+        /* Centered error box / 居中错误提示框 */
+        .box { margin-top: 120px; padding: 48px 32px; background: #fff; border-radius: 18px; display: inline-block; box-shadow: 0 4px 24px #3b82f622; }
+        /* Large error code / 大号错误码 */
+        h1 { font-size: 2.5em; margin-bottom: 18px; }
+        /* Error message text / 错误信息文本 */
+        p { font-size: 1.2em; }
+        /* Home link style / 返回首页链接样式 */
+        a { color: #3b82f6; text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h1>404</h1>
+        <!-- Error message / 错误提示 -->
+        <p>不好意思，该页面不存在。<br>Sorry, this page does not exist.</p>
+        <!-- Back to home link / 返回首页链接 -->
+        <p><a href="{{ url_for('home') }}">返回首页 / Back to Home</a></p>
+    </div>
+</body>
+</html>

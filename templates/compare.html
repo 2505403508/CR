@@ -3,18 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>Compare Cards</title>
+    <!-- Load the common CSS file -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/common.css') }}">
     <style>
+        /* Center the compare form at the top */
         .compare-form {
             text-align: center;
             margin-bottom: 32px;
         }
+
+        /* Layout for the two cards and the VS circle */
         .compare-cards {
             display: flex;
             justify-content: center;
             gap: 48px;
             margin-top: 32px;
         }
+
+        /* Styling for each card box */
         .card-box {
             background: linear-gradient(135deg, #fffbe6 60%, #ffe0e6 100%);
             border-radius: 18px;
@@ -26,11 +32,15 @@
             position: relative;
             overflow: hidden;
         }
+
+        /* Slight zoom and shadow when hovering on a card */
         .card-box:hover {
             box-shadow: 0 8px 32px rgba(252,87,94,0.18);
             transform: scale(1.04) rotate(-1.5deg);
             z-index: 2;
         }
+
+        /* Card image styling */
         .card-box img {
             width: 110px;
             height: 110px;
@@ -39,19 +49,42 @@
             filter: drop-shadow(0 2px 8px #fc575e33);
             transition: transform 0.2s;
         }
+
+        /* Image animation on hover */
         .card-box:hover img {
             transform: scale(1.10) rotate(2deg);
         }
+
+        /* Card title (name) styling */
         .card-box h2 {
             color: #fc575e;
             margin-bottom: 10px;
             letter-spacing: 1px;
+            font-size: 1.35em;
+            font-weight: bold;
         }
-        .details { font-size: 1.08em; margin-bottom: 8px; color: #444; }
+
+        /* Card details section (elixir, rarity, etc.) */
+        .details {
+            font-size: 1.08em;
+            margin-bottom: 8px;
+            color: #222;
+            text-align: center;
+            line-height: 1.7;
+        }
+
+        /* Make sure span details keep the same color */
+        .details span {
+            color: #222 !important;
+        }
+
+        /* Extra colors for each stat type */
         .elixir { color: #f7b42c; }
         .rarity { color: #fc575e; }
         .type { color: #3b82f6; }
         .arena { color: #8b5cf6; }
+
+        /* The big VS circle between the cards */
         .vs-circle {
             display: flex;
             align-items: center;
@@ -69,6 +102,8 @@
             position: relative;
             top: 80px;
         }
+
+        /* Make layout responsive for small screens */
         @media (max-width: 900px) {
             .compare-cards { flex-direction: column; gap: 24px; }
             .vs-circle { margin: 18px auto; top: 0; }
@@ -79,14 +114,19 @@
 <body>
     <div class="header">
         <h1>Compare Cards</h1>
+        <!-- Subheading under the title -->
         <p style="color:#fc575e;font-size:1.1em;margin-top:8px;">
             Select two cards to compare their stats side by side.
         </p>
     </div>
+
+    <!-- Back to Home button -->
     <div style="margin: 0 0 18px 24px;">
         <a href="{{ url_for('home') }}" class="button" style="padding:7px 22px;font-size:1em;">&#8592; Back to Home</a>
     </div>
+
     <div class="main-content">
+        <!-- Form to select two cards for comparison -->
         <form class="compare-form" method="get" action="{{ url_for('compare_cards') }}">
             <label for="card1">Card 1:</label>
             <select name="card1" id="card1" required>
@@ -95,7 +135,9 @@
                 <option value="{{ card.id }}" {% if card1 and card1.id == card.id %}selected{% endif %}>{{ card.name }}</option>
                 {% endfor %}
             </select>
+
             <span style="margin:0 12px;">vs</span>
+
             <label for="card2">Card 2:</label>
             <select name="card2" id="card2" required>
                 <option value="">Select a card</option>
@@ -103,36 +145,45 @@
                 <option value="{{ card.id }}" {% if card2 and card2.id == card.id %}selected{% endif %}>{{ card.name }}</option>
                 {% endfor %}
             </select>
+
+            <!-- Submit button to compare -->
             <button type="submit" class="button" style="margin-left:18px;">Compare</button>
         </form>
 
+        <!-- Warning if the same card is selected twice -->
         {% if card1 and card2 and card1.id == card2.id %}
             <div style="text-align:center; color:#fc575e; font-weight:bold; font-size:1.2em; margin-bottom:18px;">
                 The two selected cards are the same!
             </div>
         {% endif %}
 
+        <!-- Comparison section -->
         {% if card1 and card2 %}
         <div class="compare-cards">
+            <!-- Left card -->
             <div class="card-box">
                 <img src="{{ url_for('static', filename='images/' + card1.image) }}" alt="{{ card1.name }}">
                 <h2>{{ card1.name }}</h2>
                 <div class="details">
-                    <span class="elixir"><strong>Elixir:</strong> {{ card1.elixir_cost }}</span><br>
-                    <span class="rarity"><strong>Rarity:</strong> {{ card1.rarity }}</span><br>
-                    <span class="type"><strong>Type:</strong> {{ card1.type }}</span><br>
-                    <span class="arena"><strong>Arena:</strong> {{ card1.arena_unlocked }}</span>
+                    <span><strong>Elixir:</strong> {{ card1.elixir_cost }}</span><br>
+                    <span><strong>Rarity:</strong> {{ card1.rarity }}</span><br>
+                    <span><strong>Type:</strong> {{ card1.type }}</span><br>
+                    <span><strong>Arena:</strong> {{ card1.arena_unlocked }}</span>
                 </div>
             </div>
+
+            <!-- VS circle -->
             <div class="vs-circle">VS</div>
+
+            <!-- Right card -->
             <div class="card-box">
                 <img src="{{ url_for('static', filename='images/' + card2.image) }}" alt="{{ card2.name }}">
                 <h2>{{ card2.name }}</h2>
                 <div class="details">
-                    <span class="elixir"><strong>Elixir:</strong> {{ card2.elixir_cost }}</span><br>
-                    <span class="rarity"><strong>Rarity:</strong> {{ card2.rarity }}</span><br>
-                    <span class="type"><strong>Type:</strong> {{ card2.type }}</span><br>
-                    <span class="arena"><strong>Arena:</strong> {{ card2.arena_unlocked }}</span>
+                    <span><strong>Elixir:</strong> {{ card2.elixir_cost }}</span><br>
+                    <span><strong>Rarity:</strong> {{ card2.rarity }}</span><br>
+                    <span><strong>Type:</strong> {{ card2.type }}</span><br>
+                    <span><strong>Arena:</strong> {{ card2.arena_unlocked }}</span>
                 </div>
             </div>
         </div>

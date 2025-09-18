@@ -3,32 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <title>Register - Clash Royale Card Encyclopedia</title>
+    <!-- Load the common stylesheet -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/common.css') }}">
 </head>
 <body>
     <div class="header">
         <h1>Register</h1>
     </div>
+
+    <!-- Back to Home button -->
     <div style="margin: 0 0 18px 24px;">
         <a href="{{ url_for('home') }}" class="button" style="padding:7px 22px;font-size:1em;">&#8592; Back to Home</a>
     </div>
+
     <div class="main-content" style="max-width:400px;margin-top:40px;">
+        <!-- Show error message if registration fails -->
         {% if error %}
             <div style="color:#fc575e;font-weight:bold;margin-bottom:18px;text-align:center;">{{ error }}</div>
         {% endif %}
-        <form method="post" autocomplete="off">
-            <label for="username">Username</label>
-            <input type="text" name="username" id="username" required>
-            <label for="email">Email</label>
-            <input type="email" name="email" id="email" required>
-            <label for="password">Password</label>
-            <input type="password" name="password" id="password" required>
-            <button type="submit" class="button" style="width:100%;">Register</button>
-        </form>
-        <p style="text-align:center;margin-top:18px;">
-            Already have an account?
-            <a href="{{ url_for('login') }}">Login</a>
-        </p>
+
+        <!-- If the user is already logged in -->
+        {% if session.get('user') %}
+            <div style="color:#2563eb;font-weight:bold;text-align:center;margin-bottom:18px;">
+                Already logged in as {{ session['user'] }}.
+            </div>
+            <div style="text-align:center;">
+                <a href="{{ url_for('logout') }}" class="button" style="margin-top:8px;">Log Out</a>
+            </div>
+        {% else %}
+            <!-- Registration form -->
+            <form method="post" autocomplete="off">
+                <label for="username">Username</label>
+                <input type="text" name="username" id="username" required>
+
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" required>
+
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" required>
+
+                <!-- Submit button -->
+                <button type="submit" class="button" style="width:100%;">Register</button>
+            </form>
+
+            <!-- Link to login page if already registered -->
+            <p style="text-align:center;margin-top:18px;">
+                Already have an account?
+                <a href="{{ url_for('login') }}">Login</a>
+            </p>
+        {% endif %}
     </div>
 </body>
 </html>

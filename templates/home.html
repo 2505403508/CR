@@ -6,27 +6,66 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/common.css') }}">
 </head>
 <body>
-    <div class="header" style="display:flex;justify-content:space-between;align-items:flex-start;position:relative;">
-        <div>
-            <h1 style="margin:0;color:#3b82f6;letter-spacing:2px;text-align:center;">Clash Royale Card Encyclopedia</h1>
+    <div class="header" style="position:relative;">
+        <h1 style="color:#3b82f6;letter-spacing:2px;text-align:center;">
+            {% if lang == 'en' %}
+                Clash Royale Card Encyclopedia
+            {% else %}
+                皇室战争卡牌百科
+            {% endif %}
+        </h1>
+        <!-- 语言切换按钮放最左侧 -->
+        <div style="position:absolute;top:32px;left:32px;">
+            {% if lang == 'en' %}
+                <a href="{{ url_for('home', lang='zh') }}" class="button" style="padding:5px 14px;font-size:0.98em;">中文</a>
+            {% else %}
+                <a href="{{ url_for('home', lang='en') }}" class="button" style="padding:5px 14px;font-size:0.98em;">English</a>
+            {% endif %}
         </div>
-        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;position:absolute;top:48px;right:36px;">
-            <a href="{{ url_for('login') }}" class="button" style="padding:4px 6px;font-size:0.95em;width:48px;text-align:center;">Login</a>
-            <a href="{{ url_for('register') }}" class="button" style="padding:4px 6px;font-size:0.95em;width:48px;text-align:center;">Reg</a>
+        <!-- 登录注册按钮在右上角 -->
+        <div style="position:absolute;top:32px;right:32px;display:flex;flex-direction:column;align-items:flex-end;gap:8px;">
+            {% if session.get('user') %}
+                <span style="color:#2563eb;font-weight:bold;">{{ session['user'] }}</span>
+                <a href="{{ url_for('logout', lang=lang) }}" class="button" style="padding:5px 14px;font-size:0.98em;width:80px;text-align:center;">
+                    {% if lang == 'en' %}Log Out{% else %}退出登录{% endif %}
+                </a>
+            {% else %}
+                <a href="{{ url_for('login', lang=lang) }}" class="button" style="padding:5px 14px;font-size:0.98em;width:80px;text-align:center;">
+                    {% if lang == 'en' %}Login{% else %}登录{% endif %}
+                </a>
+                <a href="{{ url_for('register', lang=lang) }}" class="button" style="padding:5px 14px;font-size:0.98em;width:80px;text-align:center;">
+                    {% if lang == 'en' %}Register{% else %}注册{% endif %}
+                </a>
+            {% endif %}
         </div>
     </div>
     <div class="main-content" style="text-align:center;">
         <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Clash Royale Logo" style="width:600px;max-width:95vw;margin-bottom:28px;box-shadow:0 4px 24px #3b82f644;border-radius:50%;">
         <p style="font-size:1.35em;color:#3b82f6;font-weight:bold;margin-bottom:32px;text-align:center;">
-            Welcome to the ultimate Clash Royale card encyclopedia!<br>
-            Browse, compare, and discover every card in the game.
+            {% if lang == 'en' %}
+                Welcome to the ultimate Clash Royale card encyclopedia!<br>
+                Browse, compare, and discover every card in the game.
+            {% else %}
+                欢迎来到最全的皇室战争卡牌百科！<br>
+                浏览、对比、发现所有卡牌。
+            {% endif %}
         </p>
-        <div class="button-row">
-            <a href="{{ url_for('all_cards') }}" class="button">Browse All Cards</a>
-            <a href="{{ url_for('compare_cards') }}" class="button">Compare Cards</a>
-            <a href="{{ url_for('random_deck') }}" class="button">Generate Random Deck</a>
-            <a href="{{ url_for('random_deck_pro') }}" class="button">Random Deck Pro</a>
-            <a href="{{ url_for('favourite_page') }}" class="button">Favourite</a>
+        <div class="main-nav" style="display:flex;justify-content:center;gap:18px;margin-top:32px;">
+            <a href="{{ url_for('all_cards', lang=lang) }}" class="button" style="padding:6px 18px;font-size:1em;">
+                {% if lang == 'en' %}Browse All Cards{% else %}浏览全部卡牌{% endif %}
+            </a>
+            <a href="{{ url_for('compare_cards', lang=lang) }}" class="button" style="padding:6px 18px;font-size:1em;">
+                {% if lang == 'en' %}Compare Cards{% else %}卡牌对比{% endif %}
+            </a>
+            <a href="{{ url_for('random_deck', lang=lang) }}" class="button" style="padding:6px 18px;font-size:1em;">
+                {% if lang == 'en' %}Generate Random Deck{% else %}随机卡组{% endif %}
+            </a>
+            <a href="{{ url_for('random_deck_pro', lang=lang) }}" class="button" style="padding:6px 18px;font-size:1em;">
+                {% if lang == 'en' %}Random Deck Pro{% else %}高级随机卡组{% endif %}
+            </a>
+            <a href="{{ url_for('favourite_page', lang=lang) }}" class="button" style="padding:6px 18px;font-size:1em;">
+                {% if lang == 'en' %}Favourite{% else %}收藏夹{% endif %}
+            </a>
         </div>
     </div>
     {% with messages = get_flashed_messages(with_categories=true) %}

@@ -3,30 +3,177 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ card.name }} - Card Details</title>
+    <!-- Link to common styles / 引入通用样式 -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/common.css') }}">
+    <style>
+        /* Card detail container / 卡牌详情容器 */
+        .card-detail-container {
+            max-width: 420px;
+            margin: 48px auto 0 auto;
+            padding: 40px 0 36px 0;
+            background: #fff;
+            border-radius: 32px;
+            box-shadow: 0 4px 32px #3b82f622;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        /* Card image style / 卡牌图片样式 */
+        .card-detail-img {
+            width: 150px;
+            height: 150px;
+            object-fit: contain;
+            box-shadow: 0 0 0 5px #a5d8ff, 0 2px 16px #3b82f644;
+            border-radius: 20px;
+            margin-bottom: 24px;
+        }
+        /* Card title style / 卡牌标题样式 */
+        .card-detail-title {
+            color: #2563eb;
+            font-size: 2em;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-bottom: 18px;
+            text-align: center;
+        }
+        /* Card info area / 卡牌信息区 */
+        .card-detail-info {
+            width: 100%;
+            margin-bottom: 28px;
+        }
+        /* Info row / 信息行 */
+        .card-detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.08em;
+            margin-bottom: 14px;
+            padding: 0 24px;
+        }
+        /* Info label / 信息标签 */
+        .card-detail-label {
+            color: #2563eb;
+            font-weight: bold;
+            min-width: 110px;
+            text-align: left;
+        }
+        /* Info value / 信息值 */
+        .card-detail-value {
+            color: #222;
+            text-align: right;
+            font-weight: 500;
+        }
+        /* Favourite button / 收藏按钮 */
+        .fav-btn {
+            margin-top: 18px;
+            padding: 8px 24px;
+            font-size: 1.08em;
+            background: linear-gradient(90deg,#3b82f6 60%,#38bdf8 100%);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .fav-btn:hover {
+            background: linear-gradient(90deg,#2563eb 60%,#0ea5e9 100%);
+        }
+        /* Back button / 返回按钮 */
+        .back-btn {
+            margin-top: 32px;
+            padding: 8px 24px;
+            font-size: 1.08em;
+            background: linear-gradient(90deg,#e0f2fe 60%,#99f6e4 100%);
+            color: #2563eb;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .back-btn:hover {
+            background: linear-gradient(90deg,#bae6fd 60%,#5eead4 100%);
+        }
+    </style>
 </head>
 <body>
-    <div class="header">
-        <h1 style="color:#3b82f6;letter-spacing:2px;">{{ card.name }}</h1>
-    </div>
-    <div class="main-content" style="max-width:420px;margin:40px auto 0 auto;padding:36px 0 32px 0;background:#fff;border-radius:28px;box-shadow:0 4px 24px #3b82f622;">
-        <div style="display:flex;justify-content:center;">
-            <img src="{{ url_for('static', filename='images/' + card.image) }}" alt="{{ card.name }}" style="width:140px;height:140px;object-fit:contain;box-shadow:0 0 0 4px #a5d8ff,0 2px 16px #3b82f644;border-radius:18px;margin-bottom:18px;">
+    <div class="card-detail-container">
+        <div class="card-detail-title">{{ card.name }}</div>
+        <img src="{{ url_for('static', filename='images/' + card.image) }}" alt="{{ card.name }}" class="card-detail-img">
+        <div class="card-detail-info">
+            <div class="card-detail-row">
+                <span class="card-detail-label">Type</span>
+                <span class="card-detail-value">{{ card.type }}</span>
+            </div>
+            <div class="card-detail-row">
+                <span class="card-detail-label">Rarity</span>
+                <span class="card-detail-value">{{ card.rarity }}</span>
+            </div>
+            <div class="card-detail-row">
+                <span class="card-detail-label">Elixir</span>
+                <span class="card-detail-value">{{ card.elixir_cost }}</span>
+            </div>
+            <div class="card-detail-row">
+                <span class="card-detail-label">Unlock Arena</span>
+                <span class="card-detail-value">{{ card.arena_unlocked }}</span>
+            </div>
         </div>
-        <div style="margin: 32px 0 0 0; text-align: center;">
-            <div style="color:#2563eb;font-weight:bold;">Type</div>
-            <div style="color:#222; margin-bottom: 18px;">{{ card.type }}</div>
-            <div style="color:#2563eb;font-weight:bold;">Rarity</div>
-            <div style="color:#222; margin-bottom: 18px;">{{ card.rarity }}</div>
-            <div style="color:#2563eb;font-weight:bold;">Elixir</div>
-            <div style="color:#222; margin-bottom: 18px;">{{ card.elixir_cost }}</div>
-            <div style="color:#2563eb;font-weight:bold;">Unlock Arena</div>
-            <div style="color:#222;">{{ card.arena_unlocked }}</div>
-        </div>
-        <a href="{{ url_for('all_cards') }}" class="button" style="margin-top:36px;">&#8592; Back to All Cards</a>
-        <form method="post" action="{{ url_for('favourite_card', card_id=card.id) }}" style="margin-top:18px;">
-            <button type="submit" class="button" style="padding:6px 18px;font-size:1em;width:110px;">Favourite</button>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <div id="fav-popup" style="
+              position: fixed;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+              background: #fff;
+              color: #e74c3c;
+              padding: 22px 38px;
+              border-radius: 16px;
+              font-weight: bold;
+              font-size: 1.25em;
+              box-shadow: 0 8px 32px #3b82f644;
+              z-index: 9999;
+              text-align: center;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              ">
+              {% for category, message in messages %}
+                <span>
+                  {% if 'Added' in message %}
+                    <span style="font-size:2em;">&#10084;</span>
+                  {% else %}
+                    <span style="font-size:2em;">&#128148;</span>
+                  {% endif %}
+                </span>
+                <span>{{ message }}</span>
+              {% endfor %}
+            </div>
+            <script>
+              setTimeout(function() {
+                var popup = document.getElementById('fav-popup');
+                if (popup) popup.style.display = 'none';
+              }, 2000);
+            </script>
+          {% endif %}
+        {% endwith %}
+
+        <form method="post" action="{{ url_for('get_card_details', card_id=card.id) }}">
+            <button type="submit" class="fav-btn">
+                {% if is_fav %}
+                    <span style="font-size:1.2em;color:#e74c3c;">&#10084;</span> Unfavourite
+                {% else %}
+                    <span style="font-size:1.2em;color:#e74c3c;">&#9825;</span> Favourite
+                {% endif %}
+            </button>
         </form>
+        <a href="{{ url_for('all_cards') }}" class="back-btn" style="margin-top:18px;display:inline-block;padding:8px 24px;font-size:1.08em;background:linear-gradient(90deg,#e0f2fe 60%,#99f6e4 100%);color:#2563eb;border:none;border-radius:10px;font-weight:bold;cursor:pointer;transition:background 0.2s;">
+            &#8592; Back to All Cards
+        </a>
+        <a href="{{ url_for('favourite_page') }}" class="back-btn" style="margin-top:18px;display:inline-block;padding:8px 24px;font-size:1.08em;background:linear-gradient(90deg,#e0f2fe 60%,#99f6e4 100%);color:#2563eb;border:none;border-radius:10px;font-weight:bold;cursor:pointer;transition:background 0.2s;">
+            &#8592; Back to Favourite
+        </a>
     </div>
 </body>
 </html>

@@ -1,33 +1,39 @@
+/* For home.html / 用于主页页面 */
 body {
   margin: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: #0c1c2c;
-  color: #f0f0f0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Modern font for homepage / 主页现代字体 */
+  background: #0c1c2c; /* Dark background for contrast / 深色背景突出内容 */
+  color: #f0f0f0; /* Light text for readability / 浅色文字易读 */
 }
 
+/* Main container / 主容器 */
 .container {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 }
 
+/* Header section / 页眉区域 */
 header {
   text-align: center;
   padding: 2rem;
   background-color: #1a2f4a;
 }
 
+/* Homepage title / 主页标题 */
 header h1 {
   margin: 0;
   font-size: 2.5rem;
   color: #ffcc00;
 }
 
+/* Header subtitle / 页眉副标题 */
 header p {
   margin: 0.5rem 0 0;
   color: #ddd;
 }
 
+/* Navigation bar / 导航栏 */
 nav {
   background: #162738;
   display: flex;
@@ -36,6 +42,7 @@ nav {
   gap: 2rem;
 }
 
+/* Navigation links / 导航链接 */
 nav a {
   text-decoration: none;
   color: #ffcc00;
@@ -43,29 +50,35 @@ nav a {
   transition: color 0.3s ease;
 }
 
+/* Navigation link hover / 导航链接悬停 */
 nav a:hover {
   color: #ffffff;
 }
 
+/* Main content area / 主内容区 */
 main {
   flex-grow: 1;
   padding: 2rem;
 }
 
+/* Intro section / 介绍区 */
 .intro {
   text-align: center;
 }
 
+/* Intro title / 介绍标题 */
 .intro h2 {
   font-size: 2rem;
   margin-bottom: 1rem;
 }
 
+/* Intro image / 介绍图片 */
 .intro img {
   width: 200px;
   margin-top: 1rem;
 }
 
+/* Footer section / 页脚区域 */
 footer {
   text-align: center;
   padding: 1rem;
@@ -74,6 +87,7 @@ footer {
   color: #aaa;
 }
 
+/* General image style / 通用图片样式 */
 img {
   width: 60%;
   max-width: 480px;
@@ -83,14 +97,17 @@ img {
   box-shadow: 0 4px 24px #fc575e22;
 }
 
+/* Main content center / 主内容居中 */
 .main-content {
   text-align: center;
 }
 
+/* Button row style / 按钮行样式 */
 .button-row {
-  /* your button styles here */
+  /* your button styles here / 你的按钮样式 */
 }
 
+/* Main banner image / 主页横幅图片 */
 .main-banner {
   width: 100%;
   max-width: 1200px;
