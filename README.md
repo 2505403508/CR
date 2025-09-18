@@ -6,4 +6,6 @@ This is a Clash Royale themed website that allows users to:
 - Compare two cards  
 - Generate random decks (basic and pro versions)  
 - Register/login and manage favourites  
-- Switch between English and Chinese languages 
+- Switch between English and Chinese languages
+-
+-   https://github.com/2505403508/CR
